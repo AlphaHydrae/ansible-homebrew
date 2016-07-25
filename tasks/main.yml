@@ -1,0 +1,10 @@
+---
+- name: Clone homebrew
+  git: repo={{ homebrew_repo }} dest={{ homebrew_dir }} update=no
+  become: true
+  become_user: "{{ homebrew_user }}"
+- name: Tap additional Homebrew formulae repositories
+  homebrew_tap: tap={{ item }} state=present
+  become: true
+  become_user: "{{ homebrew_user }}"
+  with_items: "{{ homebrew_taps }}"

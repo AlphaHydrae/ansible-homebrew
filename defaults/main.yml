@@ -1,0 +1,7 @@
+---
+homebrew_dir: /usr/local
+homebrew_user: "{{ user }}"
+homebrew_repo: https://github.com/Homebrew/brew.git
+homebrew_taps:
+  - homebrew/dupes
+  - homebrew/services
