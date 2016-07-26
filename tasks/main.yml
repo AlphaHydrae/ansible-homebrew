@@ -1,4 +1,5 @@
 ---
+
 - name: Clone homebrew
   git: repo={{ homebrew_repo }} dest={{ homebrew_dir }} update=no
   become: true
@@ -8,3 +9,6 @@
   become: true
   become_user: "{{ homebrew_user }}"
   with_items: "{{ homebrew_taps }}"
+- name: Set Homebrew facts
+  set_fact:
+    homebrew_bin: "{{ homebrew_dir }}/bin/brew"
