@@ -1,5 +1,9 @@
 ---
 
+- name: Ensure homebrew directory ownership
+  file: path={{ homebrew_dir }} owner={{ homebrew_user }} group={{ homebrew_group }} mode=0755 state=directory
+  tags:
+    - homebrew
 - name: Clone homebrew
   git: repo={{ homebrew_repo }} dest={{ homebrew_dir }} update=no
   become: true
