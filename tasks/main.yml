@@ -4,10 +4,14 @@
   file: path={{ homebrew_dir }} owner={{ homebrew_user }} group={{ homebrew_group }} mode=0755 state=directory
   tags:
     - homebrew
+- name: Check if homebrew is installed
+  stat: path=/usr/local/bin/brew
+  register: check_homebrew_installed
 - name: Clone homebrew
   git: repo={{ homebrew_repo }} dest={{ homebrew_dir }} update=no
   become: true
   become_user: "{{ homebrew_user }}"
+  when: not check_homebrew_installed.stat.exists
   tags:
     - homebrew
 - name: Tap additional Homebrew formulae repositories
