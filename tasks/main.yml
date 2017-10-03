@@ -1,17 +1,31 @@
 ---
-
-- name: Ensure homebrew directory ownership
-  file: path={{ homebrew_dir }} owner={{ homebrew_user }} group={{ homebrew_group }} mode=0755 state=directory
-  tags:
-    - homebrew
+- name: Remove installer keep file
+  file:
+    path: /usr/local/.com.apple.installer.keep
+    state: absent
 - name: Check if homebrew is installed
   stat: path=/usr/local/bin/brew
   register: check_homebrew_installed
+  tags:
+    - homebrew
 - name: Clone homebrew
   git: repo={{ homebrew_repo }} dest={{ homebrew_dir }} update=no
-  become: true
-  become_user: "{{ homebrew_user }}"
   when: not check_homebrew_installed.stat.exists
+  tags:
+    - homebrew
+- name: Fix homebrew permissions
+  shell: chown -R {{ homebrew_user }}:{{ homebrew_group }} /usr/local/*
+  when: not check_homebrew_installed.stat.exists
+  tags:
+    - homebrew
+- name: Create additional directories
+  file:
+    path: "/usr/local/{{ item }}"
+    owner: "{{ homebrew_user }}"
+    group: "{{ homebrew_group }}"
+    state: directory
+  with_items:
+    - var
   tags:
     - homebrew
 - name: Tap additional Homebrew formulae repositories
