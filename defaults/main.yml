@@ -4,5 +4,4 @@ homebrew_user: "{{ user }}"
 homebrew_group: admin
 homebrew_repo: https://github.com/Homebrew/brew.git
 homebrew_taps:
-  - homebrew/dupes
   - homebrew/services
