@@ -1,5 +1,5 @@
 ---
-homebrew_dir: /usr/local
+homebrew_dir: "{{ '/opt/homebrew' if ansible_machine == 'arm64' else '/usr/local' }}"
 homebrew_user: "{{ user }}"
 homebrew_group: admin
 homebrew_repo: https://github.com/Homebrew/brew.git
